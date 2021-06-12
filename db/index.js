@@ -13,7 +13,11 @@ class DB {
       // id, first_name, last_name FROM employee TABLE AND department name from department TABLE AND SELECT salary FROM role TABLE
       // YOUR NEED TO USE LEFT JOINS TO JOIN THREE TABLES
       // YOUR CODE HERE
-      SELECT id, first_name, last_name,
+      `SELECT employee.id, employee.first_name, employee.last_name, role.salary, department.name
+       FROM employee
+       LEFT JOIN role ON employee.role_id = role.id
+       LEFT JOIN department ON role.department_id = department.id
+      `
     );
   }
 
@@ -27,7 +31,10 @@ class DB {
 
   // Create a new employee
   createEmployee(employee) {
-    return this.connection.query("INSERT INTO employee SET ?", employee);
+    return this.connection.query(
+      `INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)`,
+      [employee.first_name, employee.last_name, employee.role_id, employee.manager_id]
+    );
   }
 
 
@@ -35,6 +42,8 @@ class DB {
   updateEmployeeRole(employeeId, roleId) {
     return this.connection.query(
       // YOUR CODE HERE
+      `UPDATE employee SET role_id = ? WHERE id = ?`,
+      [roleId, employeeId]
     );
   }
 
@@ -53,6 +62,9 @@ class DB {
       // id, title, salary FROM role TABLE AND department name FROM department TABLE
       // YOU NEED TO USE LEFT JOIN TO JOIN role and department TABLES
       // YOUR CODE HERE
+      `SELECT role.id, role.title, role.salary, department.name
+      FROM role
+      LEFT JOIN department ON role.department_id = department.id`
     );
   }
 
@@ -60,6 +72,8 @@ class DB {
   createRole(role) {
     return this.connection.query(
       // YOUR CODE HERE
+      `INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)`,
+      [role.title, role.salary, role.department_id]
     );
   }
 
@@ -67,7 +81,11 @@ class DB {
   // Find all departments, join with employees and roles and sum up utilized department budget
   findAllDepartments() {
     return this.connection.query(
-      "SELECT department.id, department.name, SUM(role.salary) AS utilized_budget FROM department LEFT JOIN role ON role.department_id = department.id LEFT JOIN employee ON employee.role_id = role.id GROUP BY department.id, department.name"
+      `SELECT department.id, department.name, SUM(role.salary) AS utilized_budget
+       FROM department
+       LEFT JOIN role ON role.department_id = department.id
+       LEFT JOIN employee ON employee.role_id = role.id
+       GROUP BY department.id, department.name`
     );
   }
 
@@ -75,13 +93,19 @@ class DB {
   createDepartment(department) {
     return this.connection.query(
       // YOUR CODE HERE
+      `INSERT INTO department (name) VALUES (?)`,
+      [department.name]
     );
   }
 
   // Find all employees in a given department, join with roles to display role titles
   findAllEmployeesByDepartment(departmentId) {
     return this.connection.query(
-      "SELECT employee.id, employee.first_name, employee.last_name, role.title FROM employee LEFT JOIN role on employee.role_id = role.id LEFT JOIN department department on role.department_id = department.id WHERE department.id = ?;",
+      `SELECT employee.id, employee.first_name, employee.last_name, role.title
+       FROM employee
+       LEFT JOIN role on employee.role_id = role.id
+       LEFT JOIN department on role.department_id = department.id
+       WHERE department.id = ?;`,
       departmentId
     );
   }
