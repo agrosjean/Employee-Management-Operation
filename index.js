@@ -90,28 +90,20 @@ async function loadMainPrompts() {
   switch (choice) {
     case "VIEW_EMPLOYEES":
       return viewEmployees();
-      break;
     case "VIEW_EMPLOYEES_BY_DEPARTMENT":
       return viewEmployeesByDepartment();
-      break;
     case "ADD_EMPLOYEE":
       return addEmployee();
-      break;
     case "UPDATE_EMPLOYEE_ROLE":
       return updateEmployeeRole();
-      break;
     case "VIEW_DEPARTMENTS":
       return viewDepartments();
-      break;
     case "ADD_DEPARTMENT":
       return addDepartment();
-      break;
     case "VIEW_ROLES":
       return viewRoles();
-      break;
     case "ADD_ROLE":
       return addRole();
-      break;
     default:
       return quit();
   }

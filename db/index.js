@@ -13,6 +13,7 @@ class DB {
       // id, first_name, last_name FROM employee TABLE AND department name from department TABLE AND SELECT salary FROM role TABLE
       // YOUR NEED TO USE LEFT JOINS TO JOIN THREE TABLES
       // YOUR CODE HERE
+      SELECT id, first_name, last_name,
     );
   }
 
@@ -59,7 +60,7 @@ class DB {
   createRole(role) {
     return this.connection.query(
       // YOUR CODE HERE
-      );
+    );
   }
 
 

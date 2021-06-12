@@ -8,9 +8,9 @@ CREATE TABLE department (
   -- MAKE id AS PRIMARY KEY
   -- YOUR CODE HERE
 
-id INT AUTO_INCREMENT NOT NULL,
-department_name VARCHAR(30) NULL,
-PRIMARY KEY (id)
+  id INT AUTO_INCREMENT NOT NULL,
+  department_name VARCHAR(30) NULL,
+  PRIMARY KEY (id)
 );
 
 CREATE TABLE role (
@@ -24,7 +24,9 @@ CREATE TABLE role (
   title VARCHAR(30) NULL,
   salary INT NULL,
   department_id INT NULL,
-  PRIMARY KEY (id)
+
+  PRIMARY KEY (id),
+  FOREGIN KEY (department_id) REFERENCES department (id) ON DELETE CASCADE
 
 );
 
@@ -40,6 +42,18 @@ CREATE TABLE employee (
   last_name VARCHAR(30) NULL,
   role_id INT NULL,
   manager_id INT NULL,
-  PRIMARY KEY (id)
+
+  PRIMARY KEY (id),
+  FOREGIN KEY (role_id) REFERENCES role (id) ON DELETE CASCADE,
+  FOREGIN KEY (manager_id) REFERENCES employee (id) ON DELETE SET NULL
 
 );
+
+-- Department(6, 'Management')       -- 1
+--                                      |
+-- Role(12, 'Director A', 4000, 6)     -- N
+-- Role(13, 'Director B', 2000, 6)
+
+
+-- Employee(4, 'Adam', 'Junior', 13, NULL)
+-- Employee(9, 'John', 'Doe', 12, 4)
