@@ -48,12 +48,3 @@ CREATE TABLE employee (
   FOREGIN KEY (manager_id) REFERENCES employee (id) ON DELETE SET NULL
 
 );
-
--- Department(6, 'Management')       -- 1
---                                      |
--- Role(12, 'Director A', 4000, 6)     -- N
--- Role(13, 'Director B', 2000, 6)
-
-
--- Employee(4, 'Adam', 'Junior', 13, NULL)
--- Employee(9, 'John', 'Doe', 12, 4)
